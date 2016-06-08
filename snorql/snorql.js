@@ -9,11 +9,32 @@ String.prototype.startsWith = function(str) {
 	return (this.match("^"+str) == str);
 }
 
+function setCookie(cname, cvalue) {
+    var d = new Date();
+    document.cookie = cname + "=" + cvalue;
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
 function changeEndpoint() {
     var newEp = document.getElementById("endpoint").value;
     snorql._endpoint = newEp;
     snorql._displayEndpointURL();
     service.endpoint = newEp;
+    setCookie("endpoint", newEp);
 }
 
 // from http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
@@ -42,8 +63,8 @@ function Snorql() {
 
     this.start = function() {
         // TODO: Extract a QueryType class
-        var ep = getParameterByName('ep');
-        if (ep != null) {
+        var ep = getCookie('endpoint');
+        if (ep != "") {
             this._endpoint = ep;
             document.getElementById('endpoint').value = ep;
             this._displayEndpointURL();
@@ -260,7 +281,6 @@ function Snorql() {
         var mode = this._selectedOutputMode();
         if (mode == 'browse') {
             document.getElementById('queryform').action = this._browserBase;
-            document.getElementById('ep').value = this._endpoint;
             document.getElementById('query').value = document.getElementById('querytext').value;
         } else {
             document.getElementById('query').value = this._getPrefixes() + document.getElementById('querytext').value;
