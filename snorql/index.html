@@ -14,14 +14,7 @@
   <body class="snorql" onload="snorql.start()">
     <div id="header">
       <h1 id="title">Snorql: A SPARQL Explorer</h1>
-      <span style="text-align: center;">
-        <select name="endpoint" id="endpoint" onchange="changeEndpoint();">
-          <option value="http://localhost/sparql">adhs localhost - http://localhost/sparql</option>
-          <option value="https://docker.local/sparql">adhs docker - https://docker.local/sparql</option>
-          <option value="https://docker.local/ds/query">fuseki2 docker - https://docker.local/ds/query</option>
-          <option value="http://live.dbpedia.org/sparql">dbpedia live - http://live.dbpedia.org/sparql</option>
-        </select>
-      </span>
+      SPARQL Endpoint: <input size="100" name="endpoint" id="endpoint" value="http://localhost/sparql" onchange="changeEndpoint();" />
     </div>
 
     <div class="section" style="float: right; width: 8em">
@@ -55,6 +48,7 @@
       <pre id="prefixestext"></pre>
       <form id="queryform" action="#" method="get"><div>
         <input type="hidden" name="query" value="" id="query" />
+        <input type="hidden" name="ep" value="" id="ep" />
         <input type="hidden" name="output" value="json" id="jsonoutput" disabled="disabled" />
         <input type="hidden" name="stylesheet" value="" id="stylesheet" disabled="disabled" />
         <input type="hidden" name="graph" value="" id="graph-uri" disabled="disabled" />
