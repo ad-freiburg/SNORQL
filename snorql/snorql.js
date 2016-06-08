@@ -10,15 +10,26 @@ String.prototype.startsWith = function(str) {
 }
 
 function changeEndpoint() {
-    var newEp = document.getElementById("endpoint").options[document.getElementById("endpoint").selectedIndex].value;
+    var newEp = document.getElementById("endpoint").value;
     snorql._endpoint = newEp;
     snorql._displayEndpointURL();
     service.endpoint = newEp;
 }
 
+// from http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
 function Snorql() {
     // modify this._endpoint to point to your SPARQL endpoint
-    this._endpoint = "http://localhost/" + "sparql";
+    this._endpoint = "http://localhost/sparql";
     // modify these to your likeing
     this._poweredByLink = 'http://eccenca.com/';
     this._poweredByLabel = 'eccenca Linked Data Suite';
@@ -31,6 +42,12 @@ function Snorql() {
 
     this.start = function() {
         // TODO: Extract a QueryType class
+        var ep = getParameterByName('ep');
+        if (ep != null) {
+            this._endpoint = ep;
+            document.getElementById('endpoint').value = ep;
+            this._displayEndpointURL();
+        }
         this.setBrowserBase(document.location.href.replace(/\?.*/, ''));
         this._displayEndpointURL();
         this._displayPoweredBy();
@@ -243,6 +260,7 @@ function Snorql() {
         var mode = this._selectedOutputMode();
         if (mode == 'browse') {
             document.getElementById('queryform').action = this._browserBase;
+            document.getElementById('ep').value = this._endpoint;
             document.getElementById('query').value = document.getElementById('querytext').value;
         } else {
             document.getElementById('query').value = this._getPrefixes() + document.getElementById('querytext').value;
