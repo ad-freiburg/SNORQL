@@ -1,4 +1,5 @@
 var snorql = new Snorql();
+var service = new SPARQL.Service(snorql._endpoint);
 
 String.prototype.trim = function () {
     return this.replace(/^\s*/, "").replace(/\s*$/, "");
@@ -8,12 +9,19 @@ String.prototype.startsWith = function(str) {
 	return (this.match("^"+str) == str);
 }
 
+function changeEndpoint() {
+    var newEp = document.getElementById("endpoint").options[document.getElementById("endpoint").selectedIndex].value;
+    snorql._endpoint = newEp;
+    snorql._displayEndpointURL();
+    service.endpoint = newEp;
+}
+
 function Snorql() {
     // modify this._endpoint to point to your SPARQL endpoint
-    this._endpoint = document.location.href.match(/^([^?]*)snorql\//)[1] + 'sparql';
+    this._endpoint = "http://localhost/" + "sparql";
     // modify these to your likeing
-    this._poweredByLink = 'http://www4.wiwiss.fu-berlin.de/bizer/d2r-server/';
-    this._poweredByLabel = 'D2R Server';
+    this._poweredByLink = 'http://eccenca.com/';
+    this._poweredByLabel = 'eccenca Linked Data Suite';
     this._enableNamedGraphs = false;
 
     this._browserBase = null;
