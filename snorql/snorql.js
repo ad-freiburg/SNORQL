@@ -50,7 +50,7 @@ function getParameterByName(name, url) {
 
 function Snorql() {
     // modify this._endpoint to point to your SPARQL endpoint
-    this._endpoint = "http://localhost/sparql";
+    this._endpoint = "http://docker.local/sparql";
     // modify these to your likeing
     this._poweredByLink = 'http://eccenca.com/';
     this._poweredByLabel = 'eccenca Linked Data Suite';
