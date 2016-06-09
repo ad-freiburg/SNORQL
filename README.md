@@ -1,17 +1,17 @@
 # BUILD
 
-```
+```sh
 docker build -t snorql .
 ```
 
 # RUN 
 
-run as one-off container
+To run snorql as one-off container do:
 
-```
+```sh
 docker run -it --rm -p 8080:80 snorql
 ```
 
-in your browser goto http://<dockerip>:8080 to use snorql
+Open [http://docker.local:8080](http://docker.local:8080) in your browser to use snorql (assuming `docker.local` is an host alias referring to your `YOUR_DOCKER_HOST_IP`).
 
 Exit / kill with `Ctrl+C`
